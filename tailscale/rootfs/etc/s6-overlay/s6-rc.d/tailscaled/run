@@ -11,6 +11,7 @@ bashio::log.info 'Starting Tailscale...'
 
 options+=(--state=/data/tailscaled.state)
 options+=(--statedir=/data/state)
+options+=(--tun=tailscale-nextcloud)
 
 # Opt out of client log upload to log.tailscale.io
 if ! bashio::debug ; then
@@ -27,7 +28,7 @@ fi
 if ! bashio::config.has_value "userspace_networking" || \
   bashio::config.true "userspace_networking";
 then
-  options+=(--tun=userspace-networking)
+  options+=(--tun=userspace-networking-nextcloud)
 fi
 
 # Run Tailscale
