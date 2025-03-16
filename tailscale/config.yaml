@@ -1,8 +1,8 @@
 ---
-name: Tailscale
+name: TailscaleNextcloud
 version: dev
-slug: tailscale
-description: Zero config VPN for building secure networks
+slug: tailscale-nextcloud
+description: Zero config VPN for accessing Nextcloud securely
 url: https://github.com/hassio-addons/addon-tailscale
 codenotary: codenotary@frenck.dev
 ingress: true
@@ -45,3 +45,8 @@ schema:
     - "match(^tag:[a-zA-Z][a-zA-Z0-9-]*$)?"
   taildrop: bool?
   userspace_networking: bool?
+  nextcloud_port: port?
+options:
+  proxy: true
+  proxy_and_funnel_port: 8443
+  nextcloud_port: 8099
