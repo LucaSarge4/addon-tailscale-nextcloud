@@ -9,9 +9,12 @@ declare udp_port
 
 bashio::log.info 'Starting Tailscale...'
 
-options+=(--state=/data/tailscaled.state)
-options+=(--statedir=/data/state)
-options+=(--tun=tailscale-nextcloud)
+# Use unique state directories for this addon
+options+=(--state=/data/tailscaled-nextcloud.state)
+options+=(--statedir=/data/state-nextcloud)
+
+# Always use userspace networking since we can't load kernel modules in Home Assistant OS
+options+=(--tun=userspace-networking)
 
 # Opt out of client log upload to log.tailscale.io
 if ! bashio::debug ; then
@@ -22,13 +25,6 @@ fi
 udp_port=$(bashio::addon.port "41641/udp")
 if bashio::var.has_value "${udp_port}"; then
   options+=(--port=${udp_port})
-fi
-
-# Use userspace networking by default when not set, or when explicitly enabled
-if ! bashio::config.has_value "userspace_networking" || \
-  bashio::config.true "userspace_networking";
-then
-  options+=(--tun=userspace-networking-nextcloud)
 fi
 
 # Run Tailscale
